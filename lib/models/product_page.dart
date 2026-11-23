@@ -13,16 +13,13 @@ class ProductPage {
   final int skip;
   final int limit;
 
-  bool get hasMore => skip + products.length < total;
-
-  factory ProductPage.fromJson(Map<String, dynamic> json) {
-    return ProductPage(
-      products: (json['products'] as List<dynamic>? ?? [])
-          .map((item) => Product.fromJson(item as Map<String, dynamic>))
-          .toList(),
-      total: (json['total'] as num? ?? 0).toInt(),
-      skip: (json['skip'] as num? ?? 0).toInt(),
-      limit: (json['limit'] as num? ?? 0).toInt(),
-    );
-  }
+  factory ProductPage.fromJson(Map<String, dynamic> json) => ProductPage(
+    products: [
+      for (final p in json['products'] as List)
+        Product.fromJson(p as Map<String, dynamic>),
+    ],
+    total: json['total'] as int,
+    skip: json['skip'] as int,
+    limit: json['limit'] as int,
+  );
 }
